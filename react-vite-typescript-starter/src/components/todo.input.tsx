@@ -8,19 +8,33 @@ interface ITodo {
 
 interface IProps {
   name?: string;
-  setListTodo: (value : ITodo[]) => void;
+  addNewTodo: (value: ITodo) => void;
 }
 
 const TodoInput = (props: IProps) => {
   //   const { name = "Please type your todo... " } = props;
+  const { addNewTodo } = props;
   const [todo, setTodo] = useState<string>("");
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(event.target.value);
   };
 
+  const randomInteger = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
   const handleClick = () => {
-    console.log(todo);
+    if (!todo) {
+      alert("empty");
+      return;
+    }
+    addNewTodo({
+      id: randomInteger(1, 1000000),
+      title: todo,
+      isComplete: false,
+    });
+    setTodo("");
   };
 
   return (
